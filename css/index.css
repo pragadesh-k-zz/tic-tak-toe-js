@@ -1,0 +1,21 @@
+body{
+  font-family: 'Fredoka One', cursive;
+}
+
+.box{
+  /*background-color:tomato;*/
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+}
+
+.r-one,.r-two{
+  border-bottom:3px solid green;
+  border-radius: 7px;
+}
+
+.b-one,.b-two{
+  border-right:3px solid green;
+}
