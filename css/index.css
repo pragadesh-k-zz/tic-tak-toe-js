@@ -1,8 +1,8 @@
-body{
-  font-family: 'Fredoka One', cursive;
+body {
+  font-family: "Fredoka One", cursive;
 }
 
-.box{
+.box {
   /*background-color:tomato;*/
   padding: 15px;
   display: flex;
@@ -11,11 +11,54 @@ body{
   font-size: 25px;
 }
 
-.r-one,.r-two{
-  border-bottom:3px solid green;
-  border-radius: 7px;
+.r-one,
+.r-two {
+  border-bottom: 3px solid green;
 }
 
-.b-one,.b-two{
-  border-right:3px solid green;
+.b-one,
+.b-two {
+  border-right: 3px solid green;
+}
+
+.active {
+  font-size: 12px;
+  color: green;
+  margin-right: 5px;
+}
+
+#scoreboard {
+  box-shadow: 0px 0px 5px gray;
+}
+
+.timer {
+  border-radius: 20px;
+  height: 10px;
+  background-color: green;
+  animation: timer 10s reverse;
+}
+
+@keyframes timer {
+  0% {
+    background-color: red;
+    box-shadow: 0px 0px 5px red;
+    width: 0%;
+  }
+  25% {
+    background-color: red;
+    box-shadow: 0px 0px 5px red;
+  }
+  30% {
+    background-color: yellow;
+    box-shadow: 0px 0px 5px yellow;
+  }
+  50% {
+    background-color: yellow;
+    box-shadow: 0px 0px 5px yellow;
+  }
+  100% {
+    background-color: green;
+    box-shadow: 0px 0px 5px green;
+    width: 100%;
+  }
 }

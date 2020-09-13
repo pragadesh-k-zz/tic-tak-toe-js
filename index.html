@@ -1,47 +1,129 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/index.css">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="css/index.css" />
     <title>Hello, world!</title>
   </head>
   <body>
-    <div class="container bg-dark text-center">
-      <h3 class="p-4">Tik-Tac-Toe</h3>
-      <div class="row">
-        <div class="col-6 mx-auto" id="game-container">
+    <div class="container text-center">
+      <div class="row flex-column">
+        <!--heading and timer-->
+        <h3 class="p-4">Tik-Tac-Toe</h3>
+
+        <!--timer-->
+        <div class="timer progress-bar progress-bar-striped" id="timer"></div>
+        <!--Game box-->
+        <section class="col-6 mx-auto py-4" id="game-container">
+          <!--row one-->
           <div class="row r-one">
             <div class="col box b-one">x</div>
             <div class="col box b-two">x</div>
             <div class="col box">x</div>
           </div>
+          <!--row two-->
           <div class="row r-two">
             <div class="col box b-one">x</div>
             <div class="col box b-two">x</div>
             <div class="col box">x</div>
           </div>
+          <!--row three-->
           <div class="row r-three">
             <div class="col box b-one">o</div>
             <div class="col box b-two">o</div>
             <div class="col box">o</div>
           </div>
-        </div>
+        </section>
+
+        <!--Score Board-->
+        <section class="my-3 py-4" id="scoreboard">
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th>#</th>
+                <th>Players</th>
+                <th>Turn</th>
+                <th>Wins</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>1</th>
+                <td>
+                  <span id="playeronename"></span>
+                </td>
+                <td class="playeroneturn"></td>
+                <td id="playerone-wins">1</td>
+              </tr>
+
+              <tr>
+                <th>2</th>
+                <td>
+                  <span id="playertwoname"></span>
+                </td>
+                <td class="playertwoturn"></td>
+                <td id="playertwo-wins">2</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!--button section-->
+        <section class="d-flex justify-content-center mt-2" id="buttons">
+          <button class="btn btn-round btn-primary mx-1">
+            <span class="fa fa-pencil"></span> Edit
+          </button>
+          <button class="btn btn-round btn-success mx-1">Play</button>
+          <button class="btn btn-round btn-warning mx-1">
+            <span class="fa fa-repeat"></span> Reset
+          </button>
+        </section>
       </div>
-      
     </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
     <script src="js/index.js"></script>
   </body>
 </html>
