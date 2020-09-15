@@ -32,7 +32,7 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <div class="container text-center">
+    <div class="container text-center" id="maincontainer">
       <div class="row flex-column">
         <!--heading and timer-->
         <h3 class="p-4">Tik-Tac-Toe</h3>
@@ -43,21 +43,21 @@
         <section class="col-6 mx-auto py-4" id="game-container">
           <!--row one-->
           <div class="row r-one">
-            <div class="col box b-one">x</div>
-            <div class="col box b-two">x</div>
-            <div class="col box">x</div>
+            <div class="col box b-one"></div>
+            <div class="col box b-two"></div>
+            <div class="col box"></div>
           </div>
           <!--row two-->
           <div class="row r-two">
-            <div class="col box b-one">x</div>
-            <div class="col box b-two">x</div>
-            <div class="col box">x</div>
+            <div class="col box b-one"></div>
+            <div class="col box b-two"></div>
+            <div class="col box"></div>
           </div>
           <!--row three-->
           <div class="row r-three">
-            <div class="col box b-one">o</div>
-            <div class="col box b-two">o</div>
-            <div class="col box">o</div>
+            <div class="col box b-one"></div>
+            <div class="col box b-two"></div>
+            <div class="col box"></div>
           </div>
         </section>
 
@@ -76,34 +76,85 @@
               <tr>
                 <th>1</th>
                 <td>
-                  <span id="playeronename"></span>
+                  <span class="clear" id="playeronename">Player_one</span>
                 </td>
-                <td class="playeroneturn"></td>
-                <td id="playerone-wins">1</td>
+                <td class="playeroneturn clear"></td>
+                <td class="clear" id="playerone-wins">0</td>
               </tr>
 
               <tr>
                 <th>2</th>
                 <td>
-                  <span id="playertwoname"></span>
+                  <span class="clear" id="playertwoname">Player_two</span>
                 </td>
-                <td class="playertwoturn"></td>
-                <td id="playertwo-wins">2</td>
+                <td class="playertwoturn clear"></td>
+                <td class="clear" id="playertwo-wins">0</td>
               </tr>
             </tbody>
           </table>
         </section>
 
         <!--button section-->
-        <section class="d-flex justify-content-center mt-2" id="buttons">
-          <button class="btn btn-round btn-primary mx-1">
+        <section
+          class="d-flex justify-content-center mt-2 flex-sm-row flex-column"
+          id="buttons"
+        >
+          <button class="btn btn-round btn-primary mx-1 my-1" id="edit-btn">
             <span class="fa fa-pencil"></span> Edit
           </button>
-          <button class="btn btn-round btn-success mx-1">Play</button>
-          <button class="btn btn-round btn-warning mx-1">
+          <button class="btn btn-round btn-success mx-1 my-1" id="play-btn">
+            Play
+          </button>
+          <button class="btn btn-round btn-warning mx-1 my-1" id="reset-btn">
             <span class="fa fa-repeat"></span> Reset
           </button>
         </section>
+      </div>
+
+      <!--edit players-->
+      <div class="modal fade" id="exampleModalCenter">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">
+                <span class="fa fa-pencil mr-1"></span>Players
+              </h5>
+              <button type="button" class="close" data-dismiss="modal">
+                <span>&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="p1edit"
+                  placeholder="player one"
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="p2edit"
+                  placeholder="player two"
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" id="save-btn">
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
