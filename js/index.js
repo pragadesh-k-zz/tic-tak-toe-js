@@ -9,44 +9,54 @@ class TikTakToe {
         box.innerHTML = "";
       });
     };
+    this.chance = 9;
     this.editButton = document.querySelector("#edit-btn");
     this.inputone = document.querySelector("#p1edit");
     this.inputtwo = document.querySelector("#p2edit");
     this.gameOn = false;
+    this.gameBox = document.querySelector("#game-container");
+    this.wrapper = document.querySelector("#wrapper");
     this.playerOneName = document.querySelector("#playeronename");
     this.playerTwoName = document.querySelector("#playertwoname");
     this.playButton = document.querySelector("#play-btn");
     this.resetButton = document.querySelector("#reset-btn");
-    this.scoreBoardElements = document.querySelectorAll(".clear");
+    this.turn = document.querySelectorAll(".turn");
     this.saveButton = document.querySelector("#save-btn");
-    this.timerDiv = document.querySelector("#timer");
+    //this.timerDiv = document.querySelector("#timer");
   }
 
-  gameOnState() {
+  countDownfun() {
     let countdown = 3;
-    this.gameOn = true;
-    this.editButton.setAttribute("disabled", "true");
-    this.playButton.setAttribute("disabled", "true");
+    //countdown interval
     let countInterval = setInterval(() => {
-      if (!countdown <= 0) {
-        this.boxes[4].innerHTML = `${
-          !countdown <= 0 ? countdown-- : countdown
-        }`;
+      if (countdown >= 0) {
+        this.boxes[4].innerHTML = `${countdown > 0 ? countdown-- : "Play!"}`;
       }
     }, 1000);
+    //AFTER COUNTDOWN
     setTimeout(() => {
       clearInterval(countInterval);
       this.boxes[4].innerHTML = ``;
-      this.timerDiv.style.visibility = "visible";
+      //this.timerDiv.style.visibility = "visible";
       this.resetButton.removeAttribute("disabled");
+      this.playerTurn();
       this.eventListeners().onState();
-    }, 4000);
+    }, 5000);
+  }
+
+  gameOnState() {
+    this.gameOn = true;
+    this.editButton.setAttribute("disabled", "true");
+    this.playButton.setAttribute("disabled", "true");
+    this.countDownfun();
   }
 
   gameOffState() {
     this.gameOn = false;
     this.resetButton.setAttribute("disabled", "true");
-    this.timerDiv.style.visibility = "hidden";
+    this.playButton.removeAttribute("disabled");
+    this.editButton.removeAttribute("disabled");
+    //this.timerDiv.style.visibility = "hidden";
     this.clearBoxes();
     this.eventListeners().offState();
   }
@@ -64,14 +74,54 @@ class TikTakToe {
     [this.inputone.value, this.inputtwo.value] = ["", ""];
   };
 
+  playerTurn() {
+    if (this.chance % 2 !== 0) {
+      this.turn[1].innerHTML = "";
+      this.turn[0].innerHTML = `
+      <span class="fa fa-circle active">`;
+    } else {
+      this.turn[0].innerHTML = "";
+      this.turn[1].innerHTML = `
+      <span class="fa fa-circle active">`;
+    }
+    const timerBar = document.createElement("div");
+    const timer = this.wrapper.querySelector(".timer");
+    timerBar.className = "timer progress-bar progress-bar-striped";
+    if (timer === null) {
+      this.wrapper.insertBefore(timerBar, this.gameBox);
+    } else {
+      timer.remove();
+      this.wrapper.insertBefore(timerBar, this.gameBox);
+    }
+  }
+
+  xo_marker = (e) => {
+    if (
+      Object.values(this.boxes).includes(e.target) &&
+      e.target.innerHTML !== "x" &&
+      e.target.innerHTML !== "o"
+    ) {
+      //ADDING MARKER
+      e.target.innerHTML = `${this.chance % 2 !== 0 ? "x" : "o"}`;
+      //DECREMENT CHANCE
+      this.chance--;
+      //changing player turn indicator
+      this.playerTurn();
+      //ADDING and Removing ANIMATION
+      e.target.style.animationName = "scaling";
+      setTimeout(() => {
+        e.target.style.removeProperty("animation-name");
+      }, 1000);
+    }
+  };
+
   eventListeners() {
     //onstate actions
     const onState = () => {
       this.resetButton.addEventListener("click", (e) => {
-        console.log("reset");
-        this.gameOnState();
-        this.clearBoxes();
+        window.location.reload();
       });
+      this.gameBox.addEventListener("click", this.xo_marker);
     };
 
     //offstate actions

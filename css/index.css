@@ -10,6 +10,7 @@ body {
   align-items: center;
   font-size: 25px;
   min-height: 68px;
+  animation: 0.3s 1;
 }
 
 .r-one,
@@ -26,6 +27,8 @@ body {
   font-size: 12px;
   color: green;
   margin-right: 5px;
+  animation: 0.3s 1;
+  animation-name: fadeshow;
 }
 
 #scoreboard {
@@ -36,7 +39,8 @@ body {
   border-radius: 20px;
   height: 10px;
   background-color: green;
-  animation: 10s reverse;
+  animation: timer 10s reverse;
+  width: 0%;
 }
 
 /* KEYFRAMES*/
@@ -63,5 +67,24 @@ body {
     background-color: green;
     box-shadow: 0px 0px 5px green;
     width: 100%;
+  }
+}
+
+@keyframes scaling {
+  from {
+    font-size: 0px;
+  }
+
+  to {
+    font-size: 25px;
+  }
+}
+@keyframes fadeshow {
+  from {
+    font-size: 0px;
+  }
+
+  to {
+    font-size: 12px;
   }
 }

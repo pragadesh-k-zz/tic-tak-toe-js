@@ -33,12 +33,12 @@
   </head>
   <body>
     <div class="container text-center" id="maincontainer">
-      <div class="row flex-column">
+      <div class="row flex-column" id="wrapper">
         <!--heading and timer-->
         <h3 class="p-4">Tik-Tac-Toe</h3>
 
         <!--timer-->
-        <div class="timer progress-bar progress-bar-striped" id="timer"></div>
+
         <!--Game box-->
         <section class="col-6 mx-auto py-4" id="game-container">
           <!--row one-->
@@ -76,19 +76,19 @@
               <tr>
                 <th>1</th>
                 <td>
-                  <span class="clear" id="playeronename">Player_one</span>
+                  <span id="playeronename">Player_one</span>
                 </td>
-                <td class="playeroneturn clear"></td>
-                <td class="clear" id="playerone-wins">0</td>
+                <td class="turn"></td>
+                <td id="playerone-wins">0</td>
               </tr>
 
               <tr>
                 <th>2</th>
                 <td>
-                  <span class="clear" id="playertwoname">Player_two</span>
+                  <span id="playertwoname">Player_two</span>
                 </td>
-                <td class="playertwoturn clear"></td>
-                <td class="clear" id="playertwo-wins">0</td>
+                <td class="turn"></td>
+                <td id="playertwo-wins">0</td>
               </tr>
             </tbody>
           </table>
@@ -100,13 +100,13 @@
           id="buttons"
         >
           <button class="btn btn-round btn-primary mx-1 my-1" id="edit-btn">
-            <span class="fa fa-pencil"></span> Edit
+            <span class="fa fa-pencil"></span> Players
           </button>
           <button class="btn btn-round btn-success mx-1 my-1" id="play-btn">
             Play
           </button>
           <button class="btn btn-round btn-warning mx-1 my-1" id="reset-btn">
-            <span class="fa fa-repeat"></span> Reset
+            <span class="fa fa-repeat"></span> Reset All
           </button>
         </section>
       </div>
