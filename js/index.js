@@ -23,19 +23,18 @@ class TikTakToe {
     this.resetButton = document.querySelector("#reset-btn");
     this.turn = document.querySelectorAll(".turn");
     this.saveButton = document.querySelector("#save-btn");
-    //this.timerDiv = document.querySelector("#timer");
   }
-  
-  emptyFiller(){
+
+  emptyFiller() {
     let box = Object.values(this.boxes);
-    const empty = box.filter((ele)=>{
+    const empty = box.filter((ele) => {
       return ele.innerHTML == "";
-    })
+    });
     if (empty.length != 0) {
-      const emptyBox = empty[Math.floor(Math.random()*(empty.length))];
-      
-      emptyBox.innerHTML = `${(this.chance +1)% 2 !== 0 ? "x" : "o"}`;
-      
+      const emptyBox = empty[Math.floor(Math.random() * empty.length)];
+
+      emptyBox.innerHTML = `${(this.chance + 1) % 2 !== 0 ? "x" : "o"}`;
+
       emptyBox.style.animationName = "scaling";
       setTimeout(() => {
         emptyBox.style.removeProperty("animation-name");
@@ -62,11 +61,42 @@ class TikTakToe {
       this.eventListeners().onState();
     }, 5000);
   }
-  
-  gameCheck(box,turn){
-    let mySet = new Set();
-    let squares = {
-      b1 : mySet.add()
+
+  gameCheck(box, turn) {
+    let vertices = [];
+    const symbol = turn % 2 !== 0 ? "x" : "o";
+    const directions = {
+      horizontal: [
+        [this.boxes[0], this.boxes[1], this.boxes[2]],
+        [this.boxes[3], this.boxes[4], this.boxes[5]],
+        [this.boxes[6], this.boxes[7], this.boxes[8]],
+      ],
+      vertical: [
+        [this.boxes[0], this.boxes[3], this.boxes[6]],
+        [this.boxes[1], this.boxes[4], this.boxes[7]],
+        [this.boxes[2], this.boxes[5], this.boxes[8]],
+      ],
+      diagonal: [
+        [this.boxes[0], this.boxes[4], this.boxes[8]],
+        [this.boxes[2], this.boxes[4], this.boxes[6]],
+      ],
+    };
+    //filter from all vertices
+    for (const direction of Object.values(directions)) {
+      for (const square of direction) {
+        for (const element of square) {
+          element === box ? vertices.push(square) : null;
+        }
+      }
+    }
+    //filter from selected vertices
+    for (const item of vertices) {
+      let result = item.filter((ele) => {
+        return ele.innerHTML == symbol;
+      });
+      if (result.length == 3) {
+        return symbol;
+      }
     }
   }
 
@@ -82,7 +112,6 @@ class TikTakToe {
     this.resetButton.setAttribute("disabled", "true");
     this.playButton.removeAttribute("disabled");
     this.editButton.removeAttribute("disabled");
-    //this.timerDiv.style.visibility = "hidden";
     this.clearBoxes();
     this.eventListeners().offState();
   }
@@ -101,6 +130,7 @@ class TikTakToe {
   };
 
   playerTurn() {
+    let count = 5;
     if (this.chance % 2 !== 0) {
       this.turn[1].innerHTML = "";
       this.turn[0].innerHTML = `
@@ -110,36 +140,35 @@ class TikTakToe {
       this.turn[1].innerHTML = `
       <span class="fa fa-circle active">`;
     }
+    //CREATE TIME BAR
     const timerBar = document.createElement("div");
     const timer = this.wrapper.querySelector(".timer");
     timerBar.className = "timer progress-bar progress-bar-striped";
+    // UPDATE TIME BAR
     if (timer === null) {
       this.wrapper.insertBefore(timerBar, this.gameBox);
     } else {
       timer.remove();
       this.wrapper.insertBefore(timerBar, this.gameBox);
     }
-    
-    let count = 5;
-    this.intervals = setInterval(()=>{
+    // 5S GAME TIMER
+    this.intervals = setInterval(() => {
       count--;
       if (count === 0) {
-        //count = 10;
+        //CLEAR TIMER
         clearInterval(this.intervals);
         console.log("time out");
+        //CHECK FOR PAIRS
+        let ver = this.gameCheck(e.target, this.chance);
+        ver ? console.log(`player wins ${ver}`) : null;
+        //REDUCE CHANCE BY 1
         this.chance--;
-        //this.emptyFiller().innerHTML = `${this.chance % 2 !== 0 ? "x" : "o"}`;
-        this.emptyFiller()
-        
+        // AUTO XO_FILLER AFTER TIME ENDS
+        this.emptyFiller();
+        //UPDATING TURN
         this.playerTurn();
-        
-        this.chance === 0 ? 
-        () => {
-          clearInterval(this.intervals);
-          this.gameOffState();
-        } : null
-        }
-    },1000);
+      }
+    }, 1000);
   }
 
   xo_marker = (e) => {
@@ -148,15 +177,17 @@ class TikTakToe {
       e.target.innerHTML !== "x" &&
       e.target.innerHTML !== "o"
     ) {
-      //ADDING MARKER
+      //ADDING XO_MARKER
       e.target.innerHTML = `${this.chance % 2 !== 0 ? "x" : "o"}`;
+      //CLEARING TIMER
       clearInterval(this.intervals);
+      //CHECK FOR PAIRS
+      let ver = this.gameCheck(e.target, this.chance);
+      ver ? console.log(`player wins ${ver}`) : null;
       //DECREMENT CHANCE
-      console.log(this.chance--);
-      //changing player turn indicator
+      this.chance--;
+      //updating turn
       this.playerTurn();
-      //start round timing
-      //this.roundTime();
       //ADDING and Removing ANIMATION
       e.target.style.animationName = "scaling";
       setTimeout(() => {
