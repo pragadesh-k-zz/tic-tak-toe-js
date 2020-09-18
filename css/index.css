@@ -39,7 +39,7 @@ body {
   border-radius: 20px;
   height: 10px;
   background-color: green;
-  animation: timer 10s reverse;
+  animation: timer 5s reverse;
   width: 0%;
 }
 
