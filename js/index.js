@@ -1,8 +1,6 @@
-console.log("Tic tak toe");
-//$('.modal').modal('show')
-
 class TikTakToe {
   constructor() {
+    //UI ELEMENTS
     this.boxes = document.querySelectorAll(".box");
     this.clearBoxes = () => {
       this.boxes.forEach((box) => {
@@ -23,8 +21,24 @@ class TikTakToe {
     this.resetButton = document.querySelector("#reset-btn");
     this.turn = document.querySelectorAll(".turn");
     this.saveButton = document.querySelector("#save-btn");
+    this.xWins = document.querySelector("#x-wins");
+    this.oWins = document.querySelector("#o-wins");
+    this.scoreBoard = document.querySelector("#scoreboard");
+    this.table = document.querySelector(".table");
   }
 
+  announce(message) {
+    //create announce division
+    let div = document.createElement("div");
+    div.className = "announce alert alert-success rounded";
+    div.appendChild(document.createTextNode(message));
+    this.scoreBoard.insertBefore(div, this.table);
+    setTimeout(() => {
+      document.querySelector(".announce").remove();
+    }, 2000);
+  }
+
+  //marker after the timeout
   emptyFiller() {
     let box = Object.values(this.boxes);
     const empty = box.filter((ele) => {
@@ -33,15 +47,17 @@ class TikTakToe {
     if (empty.length != 0) {
       const emptyBox = empty[Math.floor(Math.random() * empty.length)];
 
-      emptyBox.innerHTML = `${(this.chance + 1) % 2 !== 0 ? "x" : "o"}`;
+      emptyBox.innerHTML = `${this.chance % 2 !== 0 ? "x" : "o"}`;
 
       emptyBox.style.animationName = "scaling";
       setTimeout(() => {
         emptyBox.style.removeProperty("animation-name");
       }, 1000);
+      return emptyBox;
     }
   }
 
+  //countdoen before game starts
   countDownfun() {
     let countdown = 3;
     //countdown interval
@@ -56,12 +72,13 @@ class TikTakToe {
       this.boxes[4].innerHTML = ``;
       //this.timerDiv.style.visibility = "visible";
       this.resetButton.removeAttribute("disabled");
-      this.playerTurn();
+      this.changePlay();
       //this.roundTime();
       this.eventListeners().onState();
     }, 5000);
   }
 
+  //check for wins
   gameCheck(box, turn) {
     let vertices = [];
     const symbol = turn % 2 !== 0 ? "x" : "o";
@@ -113,10 +130,39 @@ class TikTakToe {
     this.playButton.removeAttribute("disabled");
     this.editButton.removeAttribute("disabled");
     this.clearBoxes();
-    this.eventListeners().offState();
   }
 
-  playerNames = (e) => {
+  playAgain(symbol) {
+    //remove timerbar
+    const timer = this.wrapper.querySelector(".timer");
+    timer.remove();
+    // stop timer
+    clearInterval(this.intervals);
+    //reset chance
+    this.chance = 9;
+    //game off
+    this.gameOffState();
+    this.gameBox.removeEventListener("click", this.xo_marker);
+    //check game status
+    if (symbol == "x") {
+      this.turn[1].firstElementChild.remove();
+      let xWinCount = Number(this.xWins.innerHTML);
+      xWinCount++;
+      this.xWins.innerHTML = `${xWinCount}`;
+      this.announce(`${this.playerOneName.innerHTML} wins!`);
+    } else if (symbol == "o") {
+      this.turn[0].firstElementChild.remove();
+      let oWinCount = Number(this.oWins.innerHTML);
+      oWinCount++;
+      this.oWins.innerHTML = `${oWinCount}`;
+      this.announce(`${this.playerTwoName.innerHTML} wins!`);
+    } else {
+      this.announce("Match Draw");
+      this.turn[1].firstElementChild.remove();
+    }
+  }
+
+  getNames = (e) => {
     if (
       this.inputone.value.trim() !== "" &&
       this.inputtwo.value.trim() !== ""
@@ -124,13 +170,13 @@ class TikTakToe {
       this.playerOneName.innerHTML = this.inputone.value;
       this.playerTwoName.innerHTML = this.inputtwo.value;
     }
-
     //clear input
     [this.inputone.value, this.inputtwo.value] = ["", ""];
   };
 
-  playerTurn() {
+  changePlay() {
     let count = 5;
+    let div;
     if (this.chance % 2 !== 0) {
       this.turn[1].innerHTML = "";
       this.turn[0].innerHTML = `
@@ -158,15 +204,24 @@ class TikTakToe {
         //CLEAR TIMER
         clearInterval(this.intervals);
         console.log("time out");
+        // AUTO XO_FILLER AFTER TIME ENDS
+        div = this.emptyFiller();
         //CHECK FOR PAIRS
-        let ver = this.gameCheck(e.target, this.chance);
-        ver ? console.log(`player wins ${ver}`) : null;
+        let ver = this.gameCheck(div, this.chance);
         //REDUCE CHANCE BY 1
         this.chance--;
-        // AUTO XO_FILLER AFTER TIME ENDS
-        this.emptyFiller();
         //UPDATING TURN
-        this.playerTurn();
+        this.changePlay();
+        //play again
+        if (ver) {
+          setTimeout(() => {
+            this.playAgain(ver);
+          }, 700);
+        } else if (ver === undefined && this.chance === 0) {
+          setTimeout(() => {
+            this.playAgain(ver);
+          }, 700);
+        }
       }
     }, 1000);
   }
@@ -183,16 +238,25 @@ class TikTakToe {
       clearInterval(this.intervals);
       //CHECK FOR PAIRS
       let ver = this.gameCheck(e.target, this.chance);
-      ver ? console.log(`player wins ${ver}`) : null;
       //DECREMENT CHANCE
       this.chance--;
       //updating turn
-      this.playerTurn();
+      this.changePlay();
       //ADDING and Removing ANIMATION
       e.target.style.animationName = "scaling";
       setTimeout(() => {
         e.target.style.removeProperty("animation-name");
       }, 1000);
+      //play again
+      if (ver) {
+        setTimeout(() => {
+          this.playAgain(ver);
+        }, 700);
+      } else if (ver === undefined && this.chance === 0) {
+        setTimeout(() => {
+          this.playAgain(ver);
+        }, 700);
+      }
     }
   };
 
@@ -213,7 +277,7 @@ class TikTakToe {
       this.editButton.addEventListener("click", (e) => {
         $(".modal").modal("show");
       });
-      this.saveButton.addEventListener("click", this.playerNames);
+      this.saveButton.addEventListener("click", this.getNames);
     };
 
     return {
@@ -229,4 +293,5 @@ const game = new TikTakToe();
 
 if (!game.gameOn) {
   game.gameOffState();
+  game.eventListeners().offState();
 }
